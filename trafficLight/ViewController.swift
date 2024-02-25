@@ -15,7 +15,7 @@ enum TrafficLightColor {
 
 class ViewController: UIViewController {
     
-    lazy var redView: UIView = {
+  private lazy var redView: UIView = {
         let redView = UIView()
         redView.translatesAutoresizingMaskIntoConstraints = false
         redView.backgroundColor = .gray
@@ -23,7 +23,7 @@ class ViewController: UIViewController {
         return redView
     }()
     
-    lazy var yellowView: UIView = {
+    private lazy var yellowView: UIView = {
         let yellowView = UIView()
         yellowView.translatesAutoresizingMaskIntoConstraints = false
         yellowView.backgroundColor = .gray
@@ -31,7 +31,7 @@ class ViewController: UIViewController {
         return yellowView
     }()
     
-    lazy var greenView: UIView = {
+    private lazy var greenView: UIView = {
         let greenView = UIView()
         greenView.translatesAutoresizingMaskIntoConstraints = false
         greenView.backgroundColor = .gray
@@ -39,7 +39,7 @@ class ViewController: UIViewController {
         return greenView
     }()
     
-    lazy var stackView: UIStackView = {
+    private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [redView, yellowView, greenView])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -49,8 +49,8 @@ class ViewController: UIViewController {
         return stackView
     }()
     
-    lazy var switchButton : UIButton = {
-        let switchButton = UIButton(type: .system)
+    private lazy var switchButton: UIButton = {
+        let switchButton = UIButton()
         switchButton.translatesAutoresizingMaskIntoConstraints = false
         switchButton.setTitle("начало", for: .normal)
         switchButton.setTitleColor(.white, for: .normal)
@@ -61,6 +61,7 @@ class ViewController: UIViewController {
     }()
     
     var currentColor: TrafficLightColor = .gray
+    var inReverse: Bool = true
     
      func updateLight() {
         redView.backgroundColor = (currentColor == .red) ? .red : .gray
@@ -68,17 +69,22 @@ class ViewController: UIViewController {
         greenView.backgroundColor = (currentColor == .green) ? .green : .gray
     }
     
-    @objc func switchLight() {
-        switch currentColor {
-        case .red:
-            currentColor = .green
-        case .yellow:
-            currentColor = .red
-        case .green:
-            currentColor = .yellow
-        case .gray:
-            currentColor = .red
-        }
+    @objc
+    func switchLight() {
+        
+            switch currentColor {
+            case .red:
+                currentColor = .yellow
+                inReverse = true
+            case .green:
+                currentColor = .yellow
+             inReverse = false
+            case .yellow:
+                currentColor = inReverse ? .green : .red
+            case .gray:
+                currentColor = .red
+            }
+
         updateLight()
         switchButton.setTitle("далее", for: .normal)
     }
