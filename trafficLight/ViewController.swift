@@ -60,18 +60,17 @@ class ViewController: UIViewController {
         return switchButton
     }()
     
-    var currentColor: TrafficLightColor = .gray
-    var inReverse: Bool = true
+    private var currentColor: TrafficLightColor = .gray
+    private var inReverse: Bool = true
     
-     func updateLight() {
+    private func updateLight() {
         redView.backgroundColor = (currentColor == .red) ? .red : .gray
         yellowView.backgroundColor = (currentColor == .yellow) ? .yellow : .gray
         greenView.backgroundColor = (currentColor == .green) ? .green : .gray
     }
     
-    @objc
-    func switchLight() {
-        
+   @objc
+   private func switchLight() {
             switch currentColor {
             case .red:
                 currentColor = .yellow
